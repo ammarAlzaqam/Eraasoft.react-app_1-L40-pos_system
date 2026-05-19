@@ -1,2 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lexend:wght@100..900&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
+
+@theme {
+  --color-primary-500: #0f172b;
+  --color-secondary-400: #90a1b9;
+  --color-secondary-500: #62748e;
+  --color-accent-500: #10b981;
+
+  --font-head: "Lexend", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #0f172b;
+  font-family: "Lexend", sans-serif;
+}
+
+svg {
+  pointer-events: none;
+}
+
+@utility btn {
+  @apply p-4 h-auto rounded-xl text-white font-medium text-[18px] shadow-xl leading-7 font-head mt-4 w-full transition-all duration-500 ease-out;
+
+  /* هنخلي الـ Background صورة كبيرة */
+  background-image: linear-gradient(to right, #10b981, #059669, #10b981);
+  background-size: 200% auto;
+  background-position: left center;
+
+  &:hover {
+    /* الحركة هنا إن الـ Gradient يمشي بالعرض */
+    background-position: right center;
+    @apply shadow-2xl scale-[1.02];
+  }
+
+  &:active {
+    @apply scale-95;
+  }
+}

@@ -5,11 +5,12 @@ import axios from "axios";
 
 export default function AdminLayout() {
   let navigate = useNavigate();
+
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
       let domain = "https://pos.skyready.online/api";
-      let endpoint = "/auth/user/me";
+      let endpoint = "/users/me";
       let url = domain + endpoint;
       axios
         .get(url, {
@@ -18,19 +19,20 @@ export default function AdminLayout() {
           },
         })
         .then((res) => {
-          const user = res.data.user;
+          console.log(res);
+          const user = res.data;
           if (user.system_role !== "Admin") {
             navigate("/login");
           }
         })
-        .catch((err) => {
+        .catch(() => {
           localStorage.clear();
           navigate("/login");
         });
     } else {
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="w-full h-dvh overflow-hidden flex">

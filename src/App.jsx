@@ -6,10 +6,15 @@ import LoginPage from "./pages/LoginPage";
 import ForgetPage from "./pages/ForgetPage";
 import AdminLayout from "./layouts/AdminLayout";
 import DashboardPage from "./pages/DashboardPage";
+import CashierLayout from "./layouts/CashierLayout";
+import FoodPage from "./pages/FoodPage";
 
 const App = () => {
   return (
-    <section className="w-full h-dvh overflow-auto" data-theme="light">
+    <section
+      className="w-full h-dvh overflow-auto bg-[#f8fafc]"
+      data-theme="light"
+    >
       <BrowserRouter>
         <Routes>
           {/* Layout 1 */}
@@ -25,11 +30,11 @@ const App = () => {
             <Route path="sales" element={<h1>Sales Page</h1>} />
           </Route>
           {/* Layout 3 */}
-          <Route path="/cashier" element={<h1>Cashier Screen</h1>}>
-            <Route path="food" />
-            <Route path="dessert" />
-            <Route path="drinks" />
-            <Route path="sides" />
+          <Route path="/cashier" element={<CashierLayout />}>
+            <Route index element={<FoodPage />} />
+            <Route path="dessert" element={<h1>dessert</h1>} />
+            <Route path="drinks" element={<h1>drinks</h1>} />
+            <Route path="sides" element={<h1>sides</h1>} />
           </Route>
           {/* Layout 4 */}
           <Route path="/orders">
@@ -51,3 +56,5 @@ export default App;
 // 2- Admin Panel (Dashboard - Staff - Menu - Sales)
 // 3- Cashier Panel (food - dessert - drinks - sides)
 // 4- Restaurant
+// (Static, Nested, Protected) roots
+// Dynamic Root
