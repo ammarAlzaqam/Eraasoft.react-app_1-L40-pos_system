@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { domain } from "../store";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -18,8 +19,7 @@ export default function LoginPage() {
       identifier: email,
       password,
     };
-    let domain = "https://pos.skyready.online/api";
-    let endpoint = "/auth/local";
+    let endpoint = "/api/auth/local";
     let url = domain + endpoint;
     axios
       .post(url, data)

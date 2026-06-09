@@ -4,6 +4,7 @@ import CashierCurrentOrders from "../components/cashier/CashierCurrentOrders";
 import CashierTopBar from "../components/cashier/CashierTopBar";
 import { useEffect } from "react";
 import axios from "axios";
+import { domain } from "../store";
 
 export default function CashierLayout() {
   const navigate = useNavigate();
@@ -11,8 +12,7 @@ export default function CashierLayout() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      let domain = "https://pos.skyready.online/api";
-      let endpoint = "/users/me";
+      let endpoint = "/api/users/me";
       const url = domain + endpoint;
       axios
         .get(url, {

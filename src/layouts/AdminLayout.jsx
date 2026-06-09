@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import SideMenu from "../components/SideMenu";
 import { useEffect } from "react";
 import axios from "axios";
+import { domain } from "../store";
 
 export default function AdminLayout() {
   let navigate = useNavigate();
@@ -9,8 +10,7 @@ export default function AdminLayout() {
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
-      let domain = "https://pos.skyready.online/api";
-      let endpoint = "/users/me";
+      let endpoint = "/api/users/me";
       let url = domain + endpoint;
       axios
         .get(url, {

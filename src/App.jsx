@@ -7,7 +7,7 @@ import ForgetPage from "./pages/ForgetPage";
 import AdminLayout from "./layouts/AdminLayout";
 import DashboardPage from "./pages/DashboardPage";
 import CashierLayout from "./layouts/CashierLayout";
-import FoodPage from "./pages/FoodPage";
+import CategoryItemsPage from "./pages/CategoryItemsPage";
 
 const App = () => {
   return (
@@ -19,6 +19,7 @@ const App = () => {
         <Routes>
           {/* Layout 1 */}
           <Route path="/">
+            <Route index element={<LoginPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="forget" element={<ForgetPage />} />
           </Route>
@@ -31,10 +32,8 @@ const App = () => {
           </Route>
           {/* Layout 3 */}
           <Route path="/cashier" element={<CashierLayout />}>
-            <Route index element={<FoodPage />} />
-            <Route path="dessert" element={<h1>dessert</h1>} />
-            <Route path="drinks" element={<h1>drinks</h1>} />
-            <Route path="sides" element={<h1>sides</h1>} />
+            <Route index element={<h1>Cashier Dashboard</h1>} />
+            <Route path=":categoryId" element={<CategoryItemsPage />} />
           </Route>
           {/* Layout 4 */}
           <Route path="/orders">

@@ -28,6 +28,7 @@ export default function SideMenu() {
 
           return (
             <Link
+              key={name}
               className={clsx(
                 "py-3 px-4 flex items-center gap-4 text-secondary-500 font-medium text-[16px] leading-6 rounded-xl transition-colors duration-300 group hover:bg-[#10B9811A]",
                 active &&

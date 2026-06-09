@@ -1,13 +1,35 @@
-import { Link, useLocation } from "react-router-dom";
-import cashierSideMenuLinks from "../../constants/cashierSideMenuLinks";
+import { NavLink, useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import categoryImg from "../../assets/category-icon.png";
+import { FiLogOut } from "react-icons/fi";
+import { domain } from "../../store";
 
 export default function CashierSideMenu() {
-  const location = useLocation();
-  const pathname = location.pathname;
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    let endpoint = "/api/categories?populate=*";
+    let url = domain + endpoint;
+    axios
+      .get(url)
+      .then((res) => {
+        setCategories(res.data.data);
+      })
+      .catch(() => {
+        console.error("Something Went Wrong");
+      });
+  }, []);
 
   return (
-    <aside className="w-24 pt-8.5 border-r border-[#E2E8F0]">
+    <aside className="w-24 shrink-0 pt-8.5 border-r border-[#E2E8F0] flex flex-col">
       <div className="mb-10 w-12 h-12 rounded-2xl bg-accent-500 flex justify-center items-center shadow-lg shadow-accent-500/20 mx-auto">
         <svg
           width="24"
@@ -32,28 +54,37 @@ export default function CashierSideMenu() {
           />
         </svg>
       </div>
-      <ul className="flex flex-col gap-4 px-2">
-        {cashierSideMenuLinks.map(({ route, name, icon }) => {
-          const isActive =
-            (pathname.includes(route) && route != "/cashier") ||
-            pathname == route;
-
-          return (
-            <Link
-              to={route}
-              className={clsx(
-                "aspect-square flex flex-col justify-center items-center gap-1 rounded-xl group transition-colors duration-300 hover:bg-accent-500/10",
-                isActive && "bg-accent-500/10 *:text-accent-500",
-              )}
-            >
-              {icon}
-              <p className="font-bold text-[10px] text-secondary-400 group-hover:text-accent-500 leading-3.75 tracking-[-0.5px] uppercase transition-colors duration-300">
-                {name}
-              </p>
-            </Link>
-          );
-        })}
+      <ul className="flex flex-col gap-4 px-2 overflow-auto grow">
+        {categories.map((c) => (
+          <NavLink
+            key={c.documentId}
+            to={`/cashier/${c.documentId}`}
+            className={({ isActive }) =>
+              clsx(
+                "aspect-square flex flex-col justify-center items-center gap-1 rounded-xl group transition-colors duration-300",
+                isActive
+                  ? "bg-accent-500/10 *:text-accent-500"
+                  : "hover:bg-slate-500/10",
+              )
+            }
+          >
+            <img
+              src={c.img ? domain + c.img?.url : categoryImg}
+              className="w-ful h-5 object-contain"
+              alt="category-img"
+            />
+            <p className="font-bold text-[10px] text-secondary-400 group-hover:text-accent-500 leading-3.75 tracking-[-0.5px] uppercase transition-colors duration-300">
+              {c.name}
+            </p>
+          </NavLink>
+        ))}
       </ul>
+      <button
+        onClick={logout}
+        className="flex flex-col items-center py-5 transition-colors duration-300 group cursor-pointer"
+      >
+        <FiLogOut className="text-xl text-red-500 transition-transform duration-300 group-hover:scale-x-125" />
+      </button>
     </aside>
   );
 }
