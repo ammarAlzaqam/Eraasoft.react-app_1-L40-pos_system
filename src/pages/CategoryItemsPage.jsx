@@ -68,7 +68,7 @@ const ProductCard = ({ product }) => {
       {/* product img */}
       <div className="flex flex-col gap-5">
         <img
-          className="w-full aspect-square object-cover rounded-2xl transition-transform duration-300 group-hover:-translate-y-5 group-hover:scale-[1.2] group-hover:rounded-b-none"
+          className="w-full aspect-square object-cover rounded-2xl transition-all duration-300 group-hover:-translate-y-1 invert-15 group-hover:invert-0 brightness-150 group-hover:brightness-100"
           src={img?.url ? domain + img.url : notProductImg}
           alt="product-img"
         />

@@ -53,4 +53,11 @@ export const useCart = create((set) => ({
         return { cart: state.cart.filter((item) => item.id !== product.id) };
       }
     }),
+
+  clearCart: () => set(() => ({ cart: [] })),
+}));
+
+export const useModal = create((set) => ({
+  modalIndex: false,
+  setModalIndex: (newValue) => set(() => ({ modalIndex: newValue })),
 }));

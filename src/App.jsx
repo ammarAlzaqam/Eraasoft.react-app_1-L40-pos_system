@@ -8,6 +8,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import DashboardPage from "./pages/DashboardPage";
 import CashierLayout from "./layouts/CashierLayout";
 import CategoryItemsPage from "./pages/CategoryItemsPage";
+import "animate.css";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -42,6 +44,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </section>
   );
 };

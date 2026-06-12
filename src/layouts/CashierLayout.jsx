@@ -4,10 +4,13 @@ import CashierCurrentOrders from "../components/cashier/CashierCurrentOrders";
 import CashierTopBar from "../components/cashier/CashierTopBar";
 import { useEffect } from "react";
 import axios from "axios";
-import { domain } from "../store";
+import { domain, useModal } from "../store";
+import Modal from "../components/Modal";
 
 export default function CashierLayout() {
   const navigate = useNavigate();
+
+  const modalIndex = useModal((state) => state.modalIndex);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -42,6 +45,7 @@ export default function CashierLayout() {
         <Outlet />
       </main>
       <CashierCurrentOrders />
+      {modalIndex && <Modal />}
     </section>
   );
 }

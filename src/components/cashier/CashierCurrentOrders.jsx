@@ -1,17 +1,23 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { BsDash, BsPlus } from "react-icons/bs";
 import { LuArrowRight } from "react-icons/lu";
-import { domain, notProductImg, useCart } from "../../store";
+import { domain, notProductImg, useCart, useModal } from "../../store";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
+import { IoWarningOutline } from "react-icons/io5";
 
 export default function CashierCurrentOrders() {
   const [orderType, setOrderType] = useState("dine in");
   const orderTypes = ["dine in", "take away"];
 
   const cart = useCart((state) => state.cart);
+  const clearCart = useCart((state) => state.clearCart);
   const addToCart = useCart((state) => state.addToCart);
   const decreaseQty = useCart((state) => state.decreaseQty);
+
+  const setModalIndex = useModal((state) => state.setModalIndex);
 
   let subTotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -22,6 +28,44 @@ export default function CashierCurrentOrders() {
 
   let totalCoast = subTotal + vat;
 
+  const clearCartItems = async () => {
+    const result = await Swal.fire({
+      title: "Clear Cart?",
+      text: "This will remove all items from your cart.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, clear it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#6366F1",
+    });
+
+    if (result.isConfirmed) {
+      clearCart();
+
+      Swal.fire({
+        title: "Cart Cleared!",
+        text: "Your cart has been emptied.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const openModal = () => {
+    if (totalCoast > 0) {
+      setModalIndex(true);
+    } else {
+      toast("Your order is empty", {
+        icon: <IoWarningOutline />,
+        style: {
+          border: "1px solid #f59e0b",
+          color: "#f59e0b",
+        },
+      });
+    }
+  };
+
   return (
     <div className="w-105 shrink-0 border-l border-[#E2E8F0] shadow-[-20px_0px_50px_0px_#00000005] flex flex-col justify-between">
       <div className="flex flex-col">
@@ -30,7 +74,10 @@ export default function CashierCurrentOrders() {
           {/* Title */}
           <div className="flex justify-between items-center gap-4">
             <h2 className="font-bold text-[24px] leading-8">Current Order</h2>
-            <div className="cursor-pointer hover:scale-110 hover:*:text-red-600 transition-transform duration-300">
+            <div
+              onClick={clearCartItems}
+              className="cursor-pointer hover:scale-110 hover:*:text-red-600 transition-transform duration-300"
+            >
               <FiTrash2 className="text-[20px] text-red-500 transition-colors duration-300 hidden lg:block" />
             </div>
           </div>
@@ -79,7 +126,10 @@ export default function CashierCurrentOrders() {
                         {name}
                       </h3>
                       <span className="font-bold text-[12px] text-accent-500 leading-4 absolute lg:static bottom-0 right-0">
-                        ${price}
+                        {(price * quantity).toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
                       </span>
                     </div>
                   </div>
@@ -116,7 +166,10 @@ export default function CashierCurrentOrders() {
               SubTotal
             </p>
             <span className="font-bold text-sm leading-4 tracking-[1.2px]">
-              ${subTotal}
+              {subTotal.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
             </span>
           </div>
           <div className="flex justify-between items-center gap-3 pb-2">
@@ -124,21 +177,27 @@ export default function CashierCurrentOrders() {
               Service Tax (5%)
             </p>
             <span className="font-bold text-sm leading-4 tracking-[1.2px]">
-              ${vat}
+              {vat.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
             </span>
           </div>
           <div className="flex justify-between items-center gap-3 pt-4 border-t border-[#E2E8F0]">
             <h3 className="font-bold text-xl leading-7">Total Due</h3>
             <h5 className="font-black text-3xl leading-8 text-accent-500!">
-              ${totalCoast}
+              {totalCoast.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
             </h5>
           </div>
         </div>
         {/* Checkout Button */}
-        <button className="btn flex items-center gap-3">
+        <button onClick={openModal} className="btn flex items-center gap-3">
           <span className="font-bold text-[14px] leading-5 tracking-[1.4px] uppercase">
             Proceed To Checkout
-          </span>{" "}
+          </span>
           <LuArrowRight />
         </button>
       </div>
