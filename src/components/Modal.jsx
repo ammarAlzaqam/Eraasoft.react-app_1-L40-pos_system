@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useCart, useModal } from "../store";
+import { domain, useCart, useModal } from "../store";
 import clsx from "clsx";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Modal() {
   const setModalIndex = useModal((state) => state.setModalIndex);
@@ -8,6 +10,7 @@ export default function Modal() {
   const [rest, setRest] = useState(0);
 
   const cart = useCart((state) => state.cart);
+  const clearCart = useCart((state) => state.clearCart);
 
   const subTotal = cart.reduce(
     (acc, curr) => acc + curr.price * curr.quantity,
@@ -15,6 +18,36 @@ export default function Modal() {
   );
   const vat = subTotal * (5 / 100);
   const total = subTotal + vat;
+
+  const saveOrder = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const orderData = {
+      data: {
+        user: user.documentId,
+        total,
+        order_status: "Under Process",
+        // order_items: ["string or id", "string or id"],
+      },
+    };
+    const url = domain + "/api/orders";
+    axios.post(url, orderData).then((res) => {
+      const orderId = res.data.data.documentId;
+      cart.forEach(async (el) => {
+        const url2 = domain + "/api/order-items";
+        const orderItemData = {
+          data: {
+            order: orderId,
+            product: el.documentId,
+            qty: el.quantity,
+          },
+        };
+        await axios.post(url2, orderItemData);
+      });
+      toast.success("Order saved successfully.");
+      clearCart();
+      setModalIndex(false);
+    });
+  };
 
   return (
     <div
@@ -55,7 +88,17 @@ export default function Modal() {
             })}
           </span>
         </p>
-        <button className="btn py-2">Save Order</button>
+        <button
+          disabled={rest < 0}
+          onClick={saveOrder}
+          className={clsx(
+            rest < 0
+              ? "bg-secondary-400! rounded-xl py-2 font-medium text-[18px] shadow-xl leading-7 font-head mt-4 w-full"
+              : "btn py-2",
+          )}
+        >
+          Save Order
+        </button>
       </div>
     </div>
   );

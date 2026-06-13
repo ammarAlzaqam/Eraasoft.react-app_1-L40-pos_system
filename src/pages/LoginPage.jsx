@@ -26,8 +26,8 @@ export default function LoginPage() {
       .then((res) => {
         let jwt = res.data.jwt;
         localStorage.setItem("token", jwt);
-
         let user = res.data.user;
+        sessionStorage.setItem("user", JSON.stringify(user));
         toast.success("Welcome To You, in " + user.system_role + " Panel");
         if (user.system_role === "Admin") navigate("/admin");
         else if (user.system_role === "Cashier") navigate("/Cashier");

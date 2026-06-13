@@ -64,14 +64,16 @@ const ProductCard = ({ product }) => {
   const addToCart = useCart((state) => state.addToCart);
 
   return (
-    <div className="overflow-hidden p-4 rounded-4xl border border-[#F1F5F9] shadow-[0px_1px_2px_-1px_#0000001A,0px_1px_3px_0px_#0000001A] flex flex-col justify-between gap-5 group transition-transform duration-300 hover:scale-105">
+    <div className="overflow-hidden p-4 rounded-4xl border border-[#F1F5F9] shadow-[0px_1px_2px_-1px_#0000001A,0px_1px_3px_0px_#0000001A] flex flex-col justify-between gap-5 group transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
       {/* product img */}
       <div className="flex flex-col gap-5">
-        <img
-          className="w-full aspect-square object-cover rounded-2xl transition-all duration-300 group-hover:-translate-y-1 invert-15 group-hover:invert-0 brightness-150 group-hover:brightness-100"
-          src={img?.url ? domain + img.url : notProductImg}
-          alt="product-img"
-        />
+        <div className="overflow-hidden rounded-2xl ">
+          <img
+            className="w-full aspect-square object-cover transition-all duration-300 group-hover:scale-105 grayscale-20 group-hover:grayscale-0 brightness-90 group-hover:brightness-100"
+            src={img?.url ? domain + img.url : notProductImg}
+            alt="product-img"
+          />
+        </div>
         <div className="flex flex-col gap-1">
           {/* product name */}
           <h3 className="font-bold text-[18px] leading-7">{name}</h3>

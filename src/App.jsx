@@ -10,6 +10,9 @@ import CashierLayout from "./layouts/CashierLayout";
 import CategoryItemsPage from "./pages/CategoryItemsPage";
 import "animate.css";
 import { Toaster } from "react-hot-toast";
+import RestaurantLayout from "./layouts/RestaurantLayout";
+import InsidePage from "./pages/InsidePage";
+import OutsidePage from "./pages/OutsidePage";
 
 const App = () => {
   return (
@@ -38,9 +41,9 @@ const App = () => {
             <Route path=":categoryId" element={<CategoryItemsPage />} />
           </Route>
           {/* Layout 4 */}
-          <Route path="/orders">
-            <Route path="inside" />
-            <Route path="outside" />
+          <Route path="/restaurant" element={<RestaurantLayout />}>
+            <Route path="inside" element={<InsidePage />} />
+            <Route path="outside" element={<OutsidePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

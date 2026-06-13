@@ -38,6 +38,12 @@ svg {
   background-size: 200% auto;
   background-position: left center;
 
+  &.ready-btn {
+    background-image: linear-gradient(to right, #60a5fa, #3b82f6, #2563eb);
+    background-size: 200% auto;
+    background-position: left center;
+  }
+
   &:hover {
     /* الحركة هنا إن الـ Gradient يمشي بالعرض */
     background-position: right center;
