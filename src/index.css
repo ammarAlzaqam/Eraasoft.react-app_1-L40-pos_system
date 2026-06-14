@@ -54,3 +54,32 @@ svg {
     @apply scale-95;
   }
 }
+
+@keyframes grayscalePulse {
+  0% {
+    filter: grayscale(0%);
+    transform: scale(1);
+  }
+
+  10% {
+    filter: grayscale(0%);
+  }
+
+  50% {
+    filter: grayscale(100%);
+    transform: scale(0.95);
+  }
+
+  90% {
+    filter: grayscale(0%);
+  }
+
+  100% {
+    filter: grayscale(0%);
+    transform: scale(1);
+  }
+}
+
+@utility animate-grayscale {
+  animation: grayscalePulse 1.5s ease-in-out 2;
+}

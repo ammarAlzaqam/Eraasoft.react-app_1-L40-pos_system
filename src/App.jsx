@@ -13,6 +13,7 @@ import { Toaster } from "react-hot-toast";
 import RestaurantLayout from "./layouts/RestaurantLayout";
 import InsidePage from "./pages/InsidePage";
 import OutsidePage from "./pages/OutsidePage";
+import CashierSearchPage from "./pages/CashierSearchPage";
 
 const App = () => {
   return (
@@ -37,7 +38,7 @@ const App = () => {
           </Route>
           {/* Layout 3 */}
           <Route path="/cashier" element={<CashierLayout />}>
-            <Route index element={<h1>Cashier Dashboard</h1>} />
+            <Route index element={<CashierSearchPage />} />
             <Route path=":categoryId" element={<CategoryItemsPage />} />
           </Route>
           {/* Layout 4 */}

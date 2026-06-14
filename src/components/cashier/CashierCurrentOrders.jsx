@@ -76,7 +76,11 @@ export default function CashierCurrentOrders() {
             <h2 className="font-bold text-[24px] leading-8">Current Order</h2>
             <div
               onClick={clearCartItems}
-              className="cursor-pointer hover:scale-110 hover:*:text-red-600 transition-transform duration-300"
+              className={clsx(
+                cart.length > 0
+                  ? "cursor-pointer hover:scale-110 hover:*:text-red-600 transition-transform duration-300"
+                  : "pointer-events-none *:text-secondary-400",
+              )}
             >
               <FiTrash2 className="text-[20px] text-red-500 transition-colors duration-300 hidden lg:block" />
             </div>

@@ -1,14 +1,18 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import categoryImg from "../../assets/category-icon.png";
 import { FiLogOut } from "react-icons/fi";
 import { domain } from "../../store";
+import searchIcon from "../../assets/icons/search-product.png";
 
 export default function CashierSideMenu() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -55,6 +59,24 @@ export default function CashierSideMenu() {
         </svg>
       </div>
       <ul className="flex flex-col gap-4 px-2 overflow-auto grow">
+        <Link
+          to={`/cashier`}
+          className={clsx(
+            "aspect-square flex flex-col justify-center items-center gap-1 rounded-xl group transition-colors duration-300",
+            pathname === "/cashier"
+              ? "bg-accent-500/10 *:text-accent-500"
+              : "hover:bg-slate-500/10",
+          )}
+        >
+          <img
+            src={searchIcon}
+            className="w-full h-5 object-contain"
+            alt="category-img"
+          />
+          <p className="font-bold text-[10px] text-secondary-400 group-hover:text-accent-500 leading-3.75 tracking-[-0.5px] uppercase transition-colors duration-300">
+            Search
+          </p>
+        </Link>
         {categories.map((c) => (
           <NavLink
             key={c.documentId}
@@ -70,7 +92,7 @@ export default function CashierSideMenu() {
           >
             <img
               src={c.img ? domain + c.img?.url : categoryImg}
-              className="w-ful h-5 object-contain"
+              className="w-full h-5 object-contain"
               alt="category-img"
             />
             <p className="font-bold text-[10px] text-secondary-400 group-hover:text-accent-500 leading-3.75 tracking-[-0.5px] uppercase transition-colors duration-300">

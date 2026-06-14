@@ -61,3 +61,8 @@ export const useModal = create((set) => ({
   modalIndex: false,
   setModalIndex: (newValue) => set(() => ({ modalIndex: newValue })),
 }));
+
+export const useSearch = create((set) => ({
+  search: "",
+  setSearch: (newValue) => set(() => ({ search: newValue })),
+}));

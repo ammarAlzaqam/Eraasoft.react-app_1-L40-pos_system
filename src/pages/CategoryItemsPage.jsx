@@ -2,12 +2,14 @@ import { GoPlus } from "react-icons/go";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { domain, notProductImg, useCart } from "../store";
+import { domain, notProductImg, useCart, useSearch } from "../store";
 
 export default function CategoryItemsPage() {
   const [products, setProducts] = useState([]);
   const [catName, setCatName] = useState("");
   const { categoryId } = useParams();
+
+  const search = useSearch((state) => state.search);
 
   useEffect(() => {
     let endpoint = `/api/categories/${categoryId}`;
@@ -50,16 +52,20 @@ export default function CategoryItemsPage() {
         {/* Products */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* product card */}
-          {products?.map((p) => (
-            <ProductCard key={p.documentId} product={p} />
-          ))}
+          {products
+            ?.filter((p) =>
+              p.name.trim().toLowerCase().includes(search.trim().toLowerCase()),
+            )
+            .map((p) => (
+              <ProductCard key={p.documentId} product={p} />
+            ))}
         </div>
       </div>
     </div>
   );
 }
 
-const ProductCard = ({ product }) => {
+export const ProductCard = ({ product }) => {
   let { img, name, des, price } = product;
   const addToCart = useCart((state) => state.addToCart);
 
